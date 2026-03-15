@@ -1,0 +1,8 @@
+{
+  "name": "alternadox-press",
+  "version": "1.0.0",
+  "description": "Alternadox Press bookstore",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}
