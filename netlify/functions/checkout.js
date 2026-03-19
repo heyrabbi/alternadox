@@ -7,8 +7,13 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
   };
 
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
-  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
 
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
   const { lineItems, customerEmail, shippingAddress } = JSON.parse(event.body);
@@ -19,20 +24,59 @@ exports.handler = async (event) => {
       mode: 'payment',
       line_items: lineItems,
       customer_email: customerEmail,
-      shipping_address_collection: { allowed_countries: ['US', 'CA', 'GB', 'AU', 'IL'] },
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA', 'GB', 'AU', 'IL'],
+      },
       shipping_options: [
-        { shipping_rate_data: { type: 'fixed_amount', fixed_amount: { amount: 399, currency: 'usd' }, display_name: 'USPS Media Mail (US)', delivery_estimate: { minimum: { unit: 'business_day', value: 5 }, maximum: { unit: 'business_day', value: 10 } } } },
-        { shipping_rate_data: { type: 'fixed_amount', fixed_amount: { amount: 1299, currency: 'usd' }, display_name: 'USPS Priority Mail (US)', delivery_estimate: { minimum: { unit: 'business_day', value: 2 }, maximum: { unit: 'business_day', value: 4 } } } },
-        { shipping_rate_data: { type: 'fixed_amount', fixed_amount: { amount: 1899, currency: 'usd' }, display_name: 'International Shipping', delivery_estimate: { minimum: { unit: 'business_day', value: 7 }, maximum: { unit: 'business_day', value: 21 } } } },
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: 399, currency: 'usd' },
+            display_name: 'USPS Media Mail (US)',
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 5 },
+              maximum: { unit: 'business_day', value: 10 },
+            },
+          },
+        },
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: 1299, currency: 'usd' },
+            display_name: 'USPS Priority Mail (US)',
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 2 },
+              maximum: { unit: 'business_day', value: 4 },
+            },
+          },
+        },
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: 1899, currency: 'usd' },
+            display_name: 'International Shipping',
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 7 },
+              maximum: { unit: 'business_day', value: 21 },
+            },
+          },
+        },
       ],
-      success_url: `${event.headers.origin}/success.html`,
-      cancel_url: `${event.headers.origin}/`,
+      success_url: 'https://cool-tulumba-d9358a.netlify.app/success.html',
+      cancel_url: 'https://cool-tulumba-d9358a.netlify.app/',
     });
 
-    return { statusCode: 200, headers, body: JSON.stringify({ url: session.url }) };
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ url: session.url }),
+    };
+
   } catch (err) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
-  }
-};    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message }),
+    };
   }
 };
