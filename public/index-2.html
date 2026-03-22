@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alternadox Press</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://www.paypal.com/sdk/js?client-id=ARoH518ownSqVzZhPLYzHNVzgtrSEUY0pvZnP8pow3TsuPRL-AopuTkahZBhdfjz1ZzO7DG8y3ZAXqjg&currency=USD&enable-funding=venmo,paylater" defer></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #eeeae2;
+    --ink: #1a1a18;
+    --ink-mid: #4a4a44;
+    --ink-light: #8a8a80;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── HEADER ── */
+  .site-header {
+    padding: 32px 40px 0;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .site-nav a {
+    font-size: 13px;
+    color: var(--ink-mid);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    margin-left: 28px;
+    transition: color 0.15s;
+  }
+  .site-nav a:hover { color: var(--ink); }
+  .cart-toggle {
+    background: none;
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    padding: 5px 14px;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: background 0.15s, color 0.15s;
+    margin-left: 28px;
+  }
+  .cart-toggle:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 64px 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero-title {
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+  .hero-tagline {
+    position: relative;
+    margin: 0 auto 48px;
+    max-width: 700px;
+  }
+  .tagline-top {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 400;
+    text-align: left;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+    display: block;
+  }
+  .tagline-bottom {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 400;
+    text-align: right;
+    display: block;
+    margin-top: 4px;
+  }
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--ink-mid);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--ink);
+    margin: 48px 0;
+    opacity: 0.25;
+  }
+
+  /* ── BOOKS ── */
+  .books-section { padding: 0 0 80px; }
+  .section-label {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .book-card {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    padding: 48px 0;
+    border-top: 1px solid var(--ink);
+    align-items: start;
+  }
+  .book-card:last-child { border-bottom: 1px solid var(--ink); }
+
+  .book-cover {
+    width: 100%;
+    display: block;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.12);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .book-card:hover .book-cover {
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.18);
+    transform: translate(-1px, -1px);
+  }
+
+  .book-info { display: flex; flex-direction: column; gap: 14px; padding-top: 4px; }
+  .book-category {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .book-title {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+  }
+  .book-author {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--ink-mid);
+  }
+  .book-desc {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    max-width: 520px;
+  }
+  .book-footer {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .book-price {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ink);
+  }
+  .qty-btn {
+    background: none;
+    border: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 18px;
+    color: var(--ink);
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1;
+  }
+  .qty-btn:hover { background: var(--ink); color: var(--paper); }
+  .qty-display {
+    font-size: 14px;
+    width: 34px;
+    text-align: center;
+    border-left: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-add {
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 8px 22px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    height: 36px;
+  }
+  .btn-add:hover { background: var(--paper); color: var(--ink); }
+  .btn-add.added { background: var(--paper); color: var(--ink); }
+
+  /* ── CART DRAWER ── */
+  .cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  .cart-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 440px; max-width: 95vw;
+    background: var(--paper);
+    z-index: 101;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    border-left: 2px solid var(--ink);
+    overflow: hidden;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+
+  .cart-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-shrink: 0;
+  }
+  .cart-title { font-size: 18px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .cart-close {
+    background: none; border: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 22px; cursor: pointer;
+    color: var(--ink); line-height: 1; padding: 0;
+  }
+
+  .cart-items {
+    flex: 1; overflow-y: auto;
+    padding: 24px 32px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .cart-empty {
+    text-align: center; color: var(--ink-light);
+    font-style: italic; padding: 48px 0; font-size: 15px;
+  }
+  .cart-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 14px; align-items: start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+  }
+  .cart-item-img { width: 60px; display: block; }
+  .cart-item-title { font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .cart-item-author { font-size: 11px; font-style: italic; color: var(--ink-mid); margin-top: 2px; }
+  .cart-item-qty { font-size: 11px; color: var(--ink-mid); margin-top: 4px; }
+  .cart-item-price { font-size: 14px; font-weight: 700; text-align: right; white-space: nowrap; }
+  .cart-item-remove {
+    display: block; font-size: 11px; color: var(--ink-light);
+    cursor: pointer; text-align: right;
+    background: none; border: none;
+    font-family: 'Courier Prime', monospace;
+    padding: 0; margin-top: 4px; text-decoration: underline;
+  }
+  .cart-item-remove:hover { color: var(--ink); }
+
+  .cart-footer {
+    padding: 20px 32px 32px;
+    border-top: 1px solid var(--ink);
+    flex-shrink: 0;
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+  .cart-subtotal {
+    display: flex; justify-content: space-between;
+    font-size: 14px; margin-bottom: 6px;
+  }
+  .cart-subtotal.total {
+    font-weight: 700; font-size: 16px;
+    margin-bottom: 20px; padding-top: 8px;
+    border-top: 1px solid var(--ink); margin-top: 8px;
+  }
+  .cart-note {
+    font-size: 11px; color: var(--ink-light);
+    line-height: 1.6; margin-bottom: 18px; font-style: italic;
+  }
+
+  /* ── CHECKOUT FORM ── */
+  .checkout-form { display: flex; flex-direction: column; gap: 10px; }
+  .form-section-label {
+    font-size: 10px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--ink-light);
+    margin-top: 6px; margin-bottom: 2px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-field { display: flex; flex-direction: column; gap: 4px; }
+  .form-field label {
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-light);
+  }
+  .form-field input, .form-field select {
+    background: transparent;
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px; color: var(--ink);
+    padding: 8px 10px; outline: none;
+    transition: background 0.15s; width: 100%;
+  }
+  .form-field input:focus, .form-field select:focus { background: rgba(0,0,0,0.03); }
+  .form-field input::placeholder { color: var(--ink-light); }
+  .form-field select { appearance: none; cursor: pointer; }
+
+  .btn-checkout {
+    background: var(--ink); color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 14px; cursor: pointer; width: 100%;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 6px;
+  }
+  .btn-checkout:hover { background: var(--paper); color: var(--ink); }
+  .btn-checkout:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .checkout-error {
+    font-size: 12px; color: #c0392b;
+    font-style: italic; margin-top: 2px; display: none;
+  }
+  .checkout-error.visible { display: block; }
+
+  .payment-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 14px 0 10px;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-light);
+  }
+  .payment-divider::before, .payment-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--ink-light); opacity: 0.5;
+  }
+  #paypal-button-container { margin-top: 4px; }
+  #paypal-button-container.hidden { display: none; }
+
+  /* ── MAILING LIST ── */
+  .mailing-section {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 64px 40px;
+    max-width: 960px;
+    margin: 0 auto 80px;
+    text-align: center;
+  }
+  .mailing-title { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: 0.06em; margin-bottom: 14px; }
+  .mailing-sub { font-size: 14px; font-style: italic; color: var(--ink-mid); margin-bottom: 32px; line-height: 1.7; }
+  .mailing-form { display: flex; gap: 0; max-width: 520px; margin: 0 auto; }
+  .mailing-form input {
+    flex: 1; background: transparent;
+    border: 1px solid var(--ink); border-right: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 14px; color: var(--ink);
+    padding: 12px 18px; outline: none;
+  }
+  .mailing-form input::placeholder { color: var(--ink-light); }
+  .mailing-form button {
+    background: var(--ink); color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 12px 24px; cursor: pointer; white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  .mailing-form button:hover { background: var(--paper); color: var(--ink); }
+  .mailing-success { font-style: italic; color: var(--ink-mid); font-size: 15px; display: none; }
+  .mailing-success.visible { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 960px; margin: 0 auto;
+    padding: 0 40px 48px;
+    display: flex; justify-content: space-between;
+    align-items: baseline; flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.1em; }
+  .footer-copy { font-size: 12px; color: var(--ink-light); font-style: italic; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink); color: var(--paper);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px; letter-spacing: 0.08em;
+    padding: 12px 28px; z-index: 200;
+    opacity: 0; transition: transform 0.3s, opacity 0.3s;
+    pointer-events: none; border: 1px solid var(--paper);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  @media (max-width: 640px) {
+    .book-card { grid-template-columns: 1fr; gap: 24px; }
+    .book-cover { max-width: 200px; }
+    .form-row { grid-template-columns: 1fr; }
+    .mailing-form { flex-direction: column; }
+    .mailing-form input { border-right: 1px solid var(--ink); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+
+<!-- ── CART DRAWER ── -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <div class="cart-title">Your Cart</div>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">Your cart is empty.</div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-subtotal"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+    <div class="cart-subtotal"><span>Shipping</span><span>calculated at checkout</span></div>
+    <div class="cart-subtotal total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <div class="cart-note">Shipping rates will be shown on the next screen. We ship USPS Media Mail within the US and internationally.</div>
+
+    <div class="checkout-form">
+      <div class="form-section-label">Contact</div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>First Name</label>
+          <input type="text" id="firstName" placeholder="Jane" required>
+        </div>
+        <div class="form-field">
+          <label>Last Name</label>
+          <input type="text" id="lastName" placeholder="Smith" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="jane@example.com" required>
+      </div>
+
+      <div class="form-section-label" style="margin-top:8px">Shipping Address</div>
+      <div class="form-field">
+        <label>Address</label>
+        <input type="text" id="address1" placeholder="123 Main Street" required>
+      </div>
+      <div class="form-field">
+        <label>Apt / Suite (optional)</label>
+        <input type="text" id="address2" placeholder="">
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>City</label>
+          <input type="text" id="city" placeholder="Brooklyn" required>
+        </div>
+        <div class="form-field">
+          <label>State / Province</label>
+          <input type="text" id="state" placeholder="NY" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>ZIP / Postal Code</label>
+          <input type="text" id="zip" placeholder="11201" required>
+        </div>
+        <div class="form-field">
+          <label>Country</label>
+          <select id="country">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="IL">Israel</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkout-error" id="checkoutError"></div>
+      <button class="btn-checkout" id="checkoutBtn" onclick="handleCheckout()">
+        Proceed to Payment →
+      </button>
+      <div class="payment-divider" id="paypalDivider">or</div>
+      <div id="paypal-button-container"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div style="font-size:14px;letter-spacing:0.06em;color:var(--ink-mid)">Alternadox</div>
+  <nav class="site-nav">
+    <a href="#books">Books</a>
+    <a href="#mailing">Mailing List</a>
+    <button class="cart-toggle" onclick="openCart()">Cart (<span id="cartCount">0</span>)</button>
+  </nav>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <h1 class="hero-title">ALTERNADOX PRESS</h1>
+  <div class="hero-tagline">
+    <span class="tagline-top">reverent</span>
+    <span class="tagline-bottom">irreverence</span>
+  </div>
+  <p class="hero-desc">
+    Alternadox Press connects compelling writers with a world of readers to
+    facilitate important relationships that can change the way we think,
+    feel, and act.
+  </p>
+</section>
+
+<div class="wrap"><hr class="divider"></div>
+
+<!-- ── BOOKS ── -->
+<section class="books-section wrap" id="books">
+  <div class="section-label">— Current Titles —</div>
+
+  <!-- BOOK 1 -->
+  <div class="book-card">
+    <img src="who-even-cares-cover.jpg" alt="Who Even Cares?" class="book-cover"
+         onerror="this.style.opacity='0.3'">
+    <div class="book-info">
+      <div class="book-category">Narrative · Spirituality</div>
+      <h2 class="book-title">Who Even Cares?<br>A Rebbe Nachman Tale</h2>
+      <div class="book-author">Rabbi Gavriel Goldfeder</div>
+      <p class="book-desc">A man named Two volunteers for a difficult mission — to find the princess who has disappeared. Giants, rivers of wine, long naps, and unhelpful servants will stand in his way, but nothing will stop him. On a deeper level, this is an instruction manual for imperfect people trying to do some good in the world before it's too late. Full of useful wisdom — you'll return with new insight about your life and the choices you have to make.</p>
+      <div class="book-footer">
+        <div class="book-price">$12.00</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('book1',-1)">−</button>
+          <div class="qty-display" id="qty-book1">1</div>
+          <button class="qty-btn" onclick="changeQty('book1',1)">+</button>
+        </div>
+        <button class="btn-add" id="addbtn-book1" onclick="addToCart('book1')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK 2 -->
+  <div class="book-card">
+    <img src="jewish-futurisms-cover.jpg" alt="Jewish Futurisms" class="book-cover"
+         onerror="this.style.opacity='0.3'">
+    <div class="book-info">
+      <div class="book-category">Poetry</div>
+      <h2 class="book-title">Jewish Futurisms</h2>
+      <div class="book-author">Rabbi Joshua Bolton</div>
+      <p class="book-desc">Rabbi Joshua Bolton's second full-length collection of poetry. Confessional and probing, the book is a journey through the poet's textured and contradictory inner and outer landscapes, observing our Jewish moment through its episodes of tragedy and poignancy, moral churnings and spiritual longings. Another must-read for all seekers, tricksters, and students of life.</p>
+      <div class="book-footer">
+        <div class="book-price">$12.00</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('book2',-1)">−</button>
+          <div class="qty-display" id="qty-book2">1</div>
+          <button class="qty-btn" onclick="changeQty('book2',1)">+</button>
+        </div>
+        <button class="btn-add" id="addbtn-book2" onclick="addToCart('book2')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOK 3 -->
+  <div class="book-card">
+    <img src="50th-gate-cover.jpg" alt="The 50th Gate" class="book-cover"
+         onerror="this.style.opacity='0.3'">
+    <div class="book-info">
+      <div class="book-category">Spiritual Practice · Journaling</div>
+      <h2 class="book-title">The 50th Gate</h2>
+      <div class="book-author">Rabbi Gavriel Goldfeder</div>
+      <p class="book-desc">Nestled within the Jewish year is a seven-week period of focused reflection and work on relationships. Each day during the Counting of the Omer, Jewish tradition focuses attention on one particular theme likely to show up in all types of human interaction — marriage, dating, friendship, parenthood, and work life. This completely rewritten third edition includes journaling space to track your growth over a five-year period.</p>
+      <div class="book-footer">
+        <div class="book-price">$12.00</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('book3',-1)">−</button>
+          <div class="qty-display" id="qty-book3">1</div>
+          <button class="qty-btn" onclick="changeQty('book3',1)">+</button>
+        </div>
+        <button class="btn-add" id="addbtn-book3" onclick="addToCart('book3')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-card">
+    <img src="haggadah-cover.jpg" alt="Exodus Unfinished" class="book-cover" onerror="this.style.opacity='0.3'">
+    <div class="book-info">
+      <div class="book-category">Haggadah &middot; Liberation</div>
+      <h2 class="book-title">Exodus Unfinished:<br>A Haggadah for a World Still in Chains</h2>
+      <div class="book-author">Rabbi Barry Dolinger and Naomi Baine</div>
+      <p class="book-desc">The Rabbis insisted that the Exodus is not just a memory, it is a calling. Through attentive commentary and spiritually attuned reflection, Rabbi Barry Dolinger and Naomi Baine illuminate the timeless wisdom of the Haggadah while inviting readers to confront one uncomfortable truth: the work of liberation did not end in Egypt. Because the Exodus is not only a story we tell. It is a story we are still writing.</p>
+      <div class="book-footer">
+        <div class="book-price">$29.95</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('book4',-1)">-</button>
+          <div class="qty-display" id="qty-book4">1</div>
+          <button class="qty-btn" onclick="changeQty('book4',1)">+</button>
+        </div>
+        <button class="btn-add" id="addbtn-book4" onclick="addToCart('book4')">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── MAILING LIST ── -->
+<section class="mailing-section" id="mailing">
+  <h2 class="mailing-title">Stay in the conversation.</h2>
+  <p class="mailing-sub">New releases, author events, and dispatches from the press.<br>No noise. Just signal.</p>
+  <form class="mailing-form" onsubmit="handleMailingList(event)">
+    <input type="email" id="mailingEmail" placeholder="your@email.com" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <div class="mailing-success" id="mailingSuccess">Thank you — you're on the list.</div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">ALTERNADOX PRESS</div>
+  <div class="footer-copy">© 2025 · All rights reserved</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// CONFIGURATION — fill these in before deploying
+// ─────────────────────────────────────────────
+const BOOKS = {
+  book1: {
+    id: 'book1',
+    title: 'Who Even Cares? A Rebbe Nachman Tale',
+    author: 'Rabbi Gavriel Goldfeder',
+    price: 12.00,
+    priceId: 'price_REPLACE_BOOK1',   // ← Stripe Dashboard → Products → Price ID
+    image: 'who-even-cares-cover.jpg',
+  },
+  book2: {
+    id: 'book2',
+    title: 'Jewish Futurisms',
+    author: 'Rabbi Joshua Bolton',
+    price: 12.00,
+    priceId: 'price_REPLACE_BOOK2',   // ← Stripe Dashboard → Products → Price ID
+    image: 'jewish-futurisms-cover.jpg',
+  },
+  book3: {
+    id: 'book3',
+    title: 'The 50th Gate',
+    author: 'Rabbi Gavriel Goldfeder',
+    price: 12.00,
+    priceId: 'price_REPLACE_BOOK3',   // ← Stripe Dashboard → Products → Price ID
+    image: '50th-gate-cover.jpg',
+  },
+  book4: {
+    id: 'book4',
+    title: 'Exodus Unfinished: A Haggadah for a World Still in Chains',
+    author: 'Rabbi Barry Dolinger and Naomi Baine',
+    price: 29.95,
+    priceId: 'price_1TD2SiDxIwHbQGcbnqU4kVZ2',
+    image: 'haggadah-cover.jpg',
+  },
+};
+
+// ── STATE ──
+let cart = {};
+let quantities = { book1: 1, book2: 1, book3: 1, book4: 1 };
+
+function changeQty(bookId, delta) {
+  quantities[bookId] = Math.max(1, (quantities[bookId] || 1) + delta);
+  document.getElementById('qty-' + bookId).textContent = quantities[bookId];
+}
+
+function addToCart(bookId) {
+  const book = BOOKS[bookId];
+  const qty = quantities[bookId] || 1;
+  cart[bookId] = cart[bookId]
+    ? { ...cart[bookId], qty: cart[bookId].qty + qty }
+    : { ...book, qty };
+  renderCart();
+  showToast('"' + book.title + '" added to cart');
+  const btn = document.getElementById('addbtn-' + bookId);
+  btn.textContent = '✓ Added';
+  btn.classList.add('added');
+  setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('added'); }, 1800);
+}
+
+function removeFromCart(bookId) {
+  delete cart[bookId];
+  renderCart();
+}
+
+function renderCart() {
+  const itemsEl   = document.getElementById('cartItems');
+  const footerEl  = document.getElementById('cartFooter');
+  const emptyEl   = document.getElementById('cartEmpty');
+  const countEl   = document.getElementById('cartCount');
+  const keys      = Object.keys(cart);
+  const totalItems = keys.reduce((s, k) => s + cart[k].qty, 0);
+  countEl.textContent = totalItems;
+
+  if (keys.length === 0) {
+    itemsEl.innerHTML = '';
+    itemsEl.appendChild(emptyEl);
+    emptyEl.style.display = 'block';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  footerEl.style.display = 'block';
+  itemsEl.innerHTML = '';
+
+  let subtotal = 0;
+  keys.forEach(k => {
+    const item = cart[k];
+    subtotal += item.price * item.qty;
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <img src="${item.image}" class="cart-item-img" onerror="this.style.visibility='hidden'">
+      <div>
+        <div class="cart-item-title">${item.title}</div>
+        <div class="cart-item-author">${item.author}</div>
+        <div class="cart-item-qty">Qty: ${item.qty}</div>
+      </div>
+      <div>
+        <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+        <button class="cart-item-remove" onclick="removeFromCart('${k}')">remove</button>
+      </div>`;
+    itemsEl.appendChild(el);
+  });
+
+  document.getElementById('cartSubtotal').textContent = '$' + subtotal.toFixed(2);
+  document.getElementById('cartTotal').textContent    = '$' + subtotal.toFixed(2);
+}
+
+function openCart()  {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function handleCheckout() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+  const email     = document.getElementById('email').value.trim();
+  const address1  = document.getElementById('address1').value.trim();
+  const city      = document.getElementById('city').value.trim();
+  const state     = document.getElementById('state').value.trim();
+  const zip       = document.getElementById('zip').value.trim();
+  const errorEl   = document.getElementById('checkoutError');
+
+  if (!firstName || !lastName || !email || !address1 || !city || !state || !zip) {
+    errorEl.textContent = 'Please fill in all required fields.';
+    errorEl.classList.add('visible');
+    return;
+  }
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    errorEl.textContent = 'Please enter a valid email address.';
+    errorEl.classList.add('visible');
+    return;
+  }
+  errorEl.classList.remove('visible');
+
+  const btn = document.getElementById('checkoutBtn');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting to payment...';
+
+  const lineItems = Object.values(cart).map(item => ({
+    price: item.priceId,
+    quantity: item.qty,
+  }));
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        lineItems,
+        customerEmail: email,
+        shippingAddress: {
+          firstName, lastName, address1,
+          address2: document.getElementById('address2').value.trim(),
+          city, state, zip,
+          country: document.getElementById('country').value,
+        },
+      }),
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+  } catch (err) {
+    errorEl.textContent = 'Something went wrong: ' + err.message;
+    errorEl.classList.add('visible');
+    btn.disabled = false;
+    btn.textContent = 'Proceed to Payment →';
+  }
+}
+
+function handleMailingList(e) {
+  e.preventDefault();
+  document.querySelector('.mailing-form').style.display = 'none';
+  document.getElementById('mailingSuccess').classList.add('visible');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── PAYPAL / VENMO ──
+function initPayPal() {
+  if (typeof paypal === 'undefined') return;
+
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'paypal',
+      tagline: false,
+    },
+
+    // Called when PayPal button is clicked — validate form first
+    onClick: function(data, actions) {
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const address1  = document.getElementById('address1').value.trim();
+      const city      = document.getElementById('city').value.trim();
+      const state     = document.getElementById('state').value.trim();
+      const zip       = document.getElementById('zip').value.trim();
+      const errorEl   = document.getElementById('checkoutError');
+
+      if (!firstName || !lastName || !email || !address1 || !city || !state || !zip) {
+        errorEl.textContent = 'Please fill in all required fields before paying.';
+        errorEl.classList.add('visible');
+        return actions.reject();
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        errorEl.textContent = 'Please enter a valid email address.';
+        errorEl.classList.add('visible');
+        return actions.reject();
+      }
+      errorEl.classList.remove('visible');
+      return actions.resolve();
+    },
+
+    // Create the PayPal order
+    createOrder: function(data, actions) {
+      const items = Object.values(cart).map(item => ({
+        name: item.title,
+        quantity: String(item.qty),
+        unit_amount: { value: item.price.toFixed(2), currency_code: 'USD' },
+        category: 'PHYSICAL_GOODS',
+      }));
+      const subtotal = Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0);
+
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: subtotal.toFixed(2),
+            currency_code: 'USD',
+            breakdown: {
+              item_total: { value: subtotal.toFixed(2), currency_code: 'USD' },
+            },
+          },
+          items,
+          shipping: {
+            name: {
+              full_name: document.getElementById('firstName').value.trim() + ' ' +
+                         document.getElementById('lastName').value.trim(),
+            },
+            address: {
+              address_line_1: document.getElementById('address1').value.trim(),
+              address_line_2: document.getElementById('address2').value.trim(),
+              admin_area_2:   document.getElementById('city').value.trim(),
+              admin_area_1:   document.getElementById('state').value.trim(),
+              postal_code:    document.getElementById('zip').value.trim(),
+              country_code:   document.getElementById('country').value,
+            },
+          },
+        }],
+        payer: { email_address: document.getElementById('email').value.trim() },
+      });
+    },
+
+    // Payment approved — redirect to success page
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        window.location.href = '/success.html';
+      });
+    },
+
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      const errorEl = document.getElementById('checkoutError');
+      errorEl.textContent = 'PayPal encountered an error. Please try again.';
+      errorEl.classList.add('visible');
+    },
+  }).render('#paypal-button-container');
+}
+
+// Initialize PayPal once SDK is ready
+if (document.readyState === 'complete') {
+  initPayPal();
+} else {
+  window.addEventListener('load', initPayPal);
+}
+
+renderCart();
+</script>
+</body>
+</html>
