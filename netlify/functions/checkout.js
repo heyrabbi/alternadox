@@ -28,40 +28,18 @@ exports.handler = async (event) => {
         allowed_countries: ['US', 'CA', 'GB', 'AU', 'IL'],
       },
       shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: { amount: 399, currency: 'usd' },
-            display_name: 'USPS Media Mail (US)',
-            delivery_estimate: {
-              minimum: { unit: 'business_day', value: 5 },
-              maximum: { unit: 'business_day', value: 10 },
-            },
-          },
-        },
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: { amount: 1299, currency: 'usd' },
-            display_name: 'USPS Priority Mail (US)',
-            delivery_estimate: {
-              minimum: { unit: 'business_day', value: 2 },
-              maximum: { unit: 'business_day', value: 4 },
-            },
-          },
-        },
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: { amount: 1899, currency: 'usd' },
-            display_name: 'International Shipping',
-            delivery_estimate: {
-              minimum: { unit: 'business_day', value: 7 },
-              maximum: { unit: 'business_day', value: 21 },
-            },
-          },
-        },
-      ],
+  {
+    shipping_rate_data: {
+      type: 'fixed_amount',
+      fixed_amount: { amount: 500, currency: 'usd' },
+      display_name: 'Flat Rate Shipping',
+      delivery_estimate: {
+        minimum: { unit: 'business_day', value: 3 },
+        maximum: { unit: 'business_day', value: 7 },
+      },
+    },
+  },
+],
       success_url: 'https://cool-tulumba-d9358a.netlify.app/success.html',
       cancel_url: 'https://cool-tulumba-d9358a.netlify.app/',
     });
