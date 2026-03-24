@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exodus Unfinished — Alternadox Press</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #eeeae2;
+    --ink: #1a1a18;
+    --ink-mid: #4a4a44;
+    --ink-light: #8a8a80;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 40px; }
+
+  /* HEADER */
+  .site-header {
+    padding: 32px 40px 0;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .site-header a {
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--ink-mid);
+    text-decoration: none;
+  }
+  .site-header a:hover { color: var(--ink); }
+  .back-link {
+    font-size: 13px;
+    color: var(--ink-mid);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--ink);
+    margin: 48px 0;
+    opacity: 0.25;
+  }
+
+  /* BOOK DETAIL */
+  .book-detail {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    padding: 48px 0;
+    align-items: start;
+  }
+  .book-cover {
+    width: 100%;
+    display: block;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  }
+  .book-info { display: flex; flex-direction: column; gap: 16px; }
+  .book-category {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .book-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+  }
+  .book-author {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink-mid);
+  }
+  .book-desc {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    border-top: 1px solid rgba(0,0,0,0.12);
+    padding-top: 16px;
+  }
+  .book-price {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .book-footer {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+  }
+  .qty-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--ink);
+  }
+  .qty-btn {
+    background: none;
+    border: none;
+    font-family: 'Courier Prime', monospace;
+    font-size: 18px;
+    color: var(--ink);
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .qty-btn:hover { background: var(--ink); color: var(--paper); }
+  .qty-display {
+    font-size: 14px;
+    width: 34px;
+    text-align: center;
+    border-left: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-add {
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 8px 22px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    height: 36px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn-add:hover { background: var(--paper); color: var(--ink); }
+
+  /* SAMPLE SECTION */
+  .sample-section {
+    padding: 48px 0 80px;
+    border-top: 1px solid var(--ink);
+  }
+  .sample-label {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 24px;
+  }
+  .pdf-viewer {
+    width: 100%;
+    height: 640px;
+    border: 1px solid var(--ink);
+    display: block;
+    background: #fff;
+  }
+  .pdf-fallback {
+    border: 1px solid var(--ink);
+    padding: 32px;
+    text-align: center;
+    background: #fff;
+  }
+  .pdf-fallback p {
+    font-size: 14px;
+    color: var(--ink-mid);
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .btn-download {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-download:hover { background: var(--paper); color: var(--ink); }
+
+  /* FOOTER */
+  footer {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    padding-top: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-logo { font-size: 15px; font-weight: 700; letter-spacing: 0.1em; }
+  .footer-copy { font-size: 12px; color: var(--ink-light); font-style: italic; }
+
+  @media (max-width: 640px) {
+    .book-detail { grid-template-columns: 1fr; gap: 32px; }
+    .book-cover { max-width: 240px; }
+    .pdf-viewer { height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/" class="back-link">← Alternadox Press</a>
+  <a href="/">All Books</a>
+</header>
+
+<div class="wrap">
+  <hr class="divider">
+
+  <div class="book-detail">
+    <img src="haggadah-cover.jpg" alt="Exodus Unfinished" class="book-cover"
+         onerror="this.style.opacity='0.3'">
+    <div class="book-info">
+      <div class="book-category">Haggadah · Liberation</div>
+      <h1 class="book-title">Exodus Unfinished:<br>A Haggadah for a World Still in Chains</h1>
+      <div class="book-author">Rabbi Barry Dolinger and Naomi Baine</div>
+      <p class="book-desc">The Rabbis insisted that the Exodus is not just a memory, it is a calling. A command to see ourselves as if we personally left slavery, and to recognize the chains that still bind the world. Through attentive commentary and spiritually attuned reflection, Rabbi Barry Dolinger and Naomi Baine illuminate the timeless wisdom of the Haggadah while inviting readers to confront one uncomfortable truth: the work of liberation did not end in Egypt. Today, millions remain trapped in forced labor and human trafficking. The Exodus story asks what it would mean to continue on the journey our ancestors began. Because the Exodus is not only a story we tell. It is a story we are still writing.</p>
+      <div class="book-footer">
+        <div class="book-price">$29.95</div>
+        <div class="qty-control">
+          <button class="qty-btn" id="qty-minus" onclick="changeQty(-1)">-</button>
+          <div class="qty-display" id="qty-display">1</div>
+          <button class="qty-btn" id="qty-plus" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-add" onclick="addToMainCart()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <section class="sample-section">
+    <div class="sample-label">— Sample Pages —</div>
+    <object class="pdf-viewer" data="barry-samples.pdf" type="application/pdf">
+      <div class="pdf-fallback">
+        <p>Your browser cannot display the PDF inline.</p>
+        <a href="barry-samples.pdf" class="btn-download" target="_blank">Download Sample (PDF)</a>
+      </div>
+    </object>
+    <p style="margin-top:16px; font-size:12px; color:var(--ink-light); font-style:italic;">
+      Can't see the PDF? <a href="barry-samples.pdf" target="_blank" style="color:var(--ink-mid);">Open it directly →</a>
+    </p>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-logo">ALTERNADOX PRESS</div>
+  <div class="footer-copy">© 2025 · All rights reserved</div>
+</footer>
+
+<script>
+let qty = 1;
+
+function changeQty(delta) {
+  qty = Math.max(1, qty + delta);
+  document.getElementById('qty-display').textContent = qty;
+}
+
+function addToMainCart() {
+  // Store in sessionStorage so main page can pick it up
+  const existing = JSON.parse(sessionStorage.getItem('pendingCart') || '[]');
+  existing.push({ bookId: 'book4', qty: qty });
+  sessionStorage.setItem('pendingCart', JSON.stringify(existing));
+  // Redirect to main page with cart open
+  window.location.href = '/?addbook=book4&qty=' + qty;
+}
+</script>
+</body>
+</html>
